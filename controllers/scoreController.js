@@ -6,7 +6,7 @@ const getScores = asyncHandler(async (req, res) => {
   res.status(200).send({ data: scores });
 });
 
-const addScore = asyncHandler(async (req, res) => {
+const createScore = asyncHandler(async (req, res) => {
   const { user_id, speed } = req.body;
   const score = new Score({
     user_id,
@@ -22,5 +22,5 @@ const addScore = asyncHandler(async (req, res) => {
 
 module.exports = {
   getScores,
-  addScore,
+  createScore,
 };

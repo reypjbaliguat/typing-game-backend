@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user");
 const SocialUser = require("../models/socialUser");
+const jwt = require("jsonwebtoken");
 
 const login = asyncHandler(async (req, res) => {
   const user = await User.findOne({ username: req.body.username });
@@ -26,7 +27,7 @@ const loginViaSocial = asyncHandler(async (req, res) => {
   const duplicateSocialUser = await SocialUser.findOne({
     email: req.body.email,
   });
-  console.log(!duplicateSocialUser);
+
   if (!duplicateSocialUser) {
     const socialUser = new SocialUser({
       email: req.body.email,
@@ -34,20 +35,40 @@ const loginViaSocial = asyncHandler(async (req, res) => {
       image: req.body.image,
     });
     const createdSocialUser = await socialUser.save();
+    // Create token
+    const token = jwt.sign(
+      { user_id: createdSocialUser._id, email: createdSocialUser.email },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: "2h",
+      }
+    );
+
     res.status(200).send({
       id: createdSocialUser._id,
       email: createdSocialUser.email,
       name: createdSocialUser.name,
       image: createdSocialUser.image,
       message: "User successfully created",
+      token,
     });
   } else {
+    // Create token
+    const token = jwt.sign(
+      { user_id: duplicateSocialUser._id, email: duplicateSocialUser.email },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: "2h",
+      }
+    );
+
     res.status(200).send({
       message: "User already exist",
       id: duplicateSocialUser._id,
       name: duplicateSocialUser.name,
       image: duplicateSocialUser.image,
       email: duplicateSocialUser.email,
+      token,
     });
   }
 });

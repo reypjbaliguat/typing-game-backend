@@ -1,9 +1,10 @@
 const express = require("express");
-const { getScores, addScore } = require("../controllers/scoreController.js");
+const authMiddleWare = require("../middlewares/authenticateJWT");
+const { getScores, createScore } = require("../controllers/scoreController.js");
 
 const scoreRouter = express.Router();
 
-scoreRouter.get("/get-scores", getScores);
-scoreRouter.post("/add-score", addScore);
+scoreRouter.get("/", getScores);
+scoreRouter.post("/", authMiddleWare, createScore);
 
 module.exports = scoreRouter;
