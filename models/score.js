@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const score = new mongoose.Schema(
   {
     user_id: { type: String, required: true },
+    email: { type: String, required: true },
     speed: { type: String, required: true },
   },
   {

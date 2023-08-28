@@ -38,12 +38,11 @@ const loginViaSocial = asyncHandler(async (req, res) => {
     // Create token
     const token = jwt.sign(
       { user_id: createdSocialUser._id, email: createdSocialUser.email },
-      process.env.TOKEN_KEY,
+      process.env.JWT_SECRET || "somethingsecret",
       {
         expiresIn: "2h",
       }
     );
-
     res.status(200).send({
       id: createdSocialUser._id,
       email: createdSocialUser.email,
@@ -56,12 +55,11 @@ const loginViaSocial = asyncHandler(async (req, res) => {
     // Create token
     const token = jwt.sign(
       { user_id: duplicateSocialUser._id, email: duplicateSocialUser.email },
-      process.env.TOKEN_KEY,
+      process.env.JWT_SECRET || "somethingsecret",
       {
         expiresIn: "2h",
       }
     );
-
     res.status(200).send({
       message: "User already exist",
       id: duplicateSocialUser._id,
