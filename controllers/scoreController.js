@@ -7,8 +7,9 @@ const getScores = asyncHandler(async (req, res) => {
 });
 
 const createScore = asyncHandler(async (req, res) => {
-  const { user_id, speed } = req.body;
+  const { user_id, speed, email } = req.body;
   const score = new Score({
+    email,
     user_id,
     speed,
   });
@@ -17,6 +18,7 @@ const createScore = asyncHandler(async (req, res) => {
     id: createdScore._id,
     user_id: createdScore.user_id,
     speed: createdScore.speed,
+    email: createdScore.email,
   });
 });
 

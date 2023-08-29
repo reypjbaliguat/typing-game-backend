@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
+  console.log(authHeader);
   if (!authHeader) {
     res.status(401).json({
       status: "fail",
@@ -8,6 +9,7 @@ module.exports = (req, res, next) => {
     });
   }
   const token = authHeader.split(" ")[1];
+  console.log(token);
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET || "somethingsecret");
     req.user = user;
