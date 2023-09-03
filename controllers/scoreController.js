@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Score = require("../models/score");
 
 const getScores = asyncHandler(async (req, res) => {
-  const scores = await Score.find().sort({ speed: "desc" });
+  const scores = await Score.find().sort({ speed: "desc" }).limit(10);
   res.status(200).send({ data: scores });
 });
 
