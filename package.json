@@ -22,8 +22,5 @@
     "moment": "^2.29.4",
     "mongodb": "^5.7.0",
     "mongoose": "^7.4.1"
-  },
-  "engines": {
-    "node": "18.x"
   }
 }
