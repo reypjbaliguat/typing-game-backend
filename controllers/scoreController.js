@@ -8,18 +8,23 @@ const getScores = asyncHandler(async (req, res) => {
 
 const createScore = asyncHandler(async (req, res) => {
   const { user_id, speed, email } = req.body;
-  const score = new Score({
-    email,
-    user_id,
-    speed,
-  });
-  const createdScore = await score.save();
-  res.status(200).send({
-    id: createdScore._id,
-    user_id: createdScore.user_id,
-    speed: createdScore.speed,
-    email: createdScore.email,
-  });
+  try {
+    const score = new Score({
+        email,
+        user_id,
+        speed,
+      });
+      const createdScore = await score.save();
+      res.status(200).send({
+        id: createdScore._id,
+        user_id: createdScore.user_id,
+        speed: createdScore.speed,
+        email: createdScore.email,
+      });
+  } catch (error) {
+    throw new Error(error)
+  }
+  
 });
 
 module.exports = {
